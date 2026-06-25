@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doozi POS — Point of Sale System</title>
+  <!-- PWA: installable app identity -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0D6B5E" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Doozi POS" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- SPLASH VIDEO OVERLAY -->
+<div class="splash-overlay" id="splashOverlay" style="display:none">
+  <video id="splashVideo" src="assets/splash.mov" autoplay playsinline muted
+    style="width:100%;height:100%;object-fit:cover;display:block"></video>
+  <div class="splash-fallback" id="splashFallback" style="display:none;position:absolute;inset:0;background:#0D2E2C;flex-direction:column;align-items:center;justify-content:center;gap:20px">
+    <div class="splash-ring"></div>
+    <div class="splash-title">Doozi <span>POS</span></div>
+  </div>
+</div>
+
+<!-- LOGIN OVERLAY -->
+<div class="login-overlay" id="loginOverlay">
+
+  <!-- Hero section -->
+  <div class="login-hero">
+
+    <!-- Teal band: full width top, fades down into background -->
+    <div style="position:absolute;top:0;left:0;right:0;height:340px;pointer-events:none;z-index:0;background:linear-gradient(to bottom, #0D8C7A 0%, #2BB5A0 20%, #4ECDC4 40%, rgba(78,205,196,0.4) 65%, transparent 100%)"></div>
+
+    <!-- Content: pushed toward the bottom of the hero near the card -->
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;padding-top:90px;padding-bottom:28px">
+      <!-- Logo -->
+      <svg viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg" style="width:150px;height:150px;margin-bottom:18px;filter:drop-shadow(0 10px 18px rgba(13,46,44,0.30))">
+        <path fill="#4ecdc4" d="M540,852.76c-83.54,0-162.08-32.53-221.15-91.6-59.07-59.07-91.6-137.61-91.6-221.15s32.53-162.08,91.6-221.15c59.07-59.07,137.61-91.6,221.15-91.6s162.08,32.53,221.15,91.6c59.07,59.07,91.6,137.61,91.6,221.15s-32.53,162.08-91.6,221.15c-59.07,59.07-137.61,91.6-221.15,91.6ZM540,262.64c-74.09,0-143.74,28.85-196.13,81.24-52.39,52.39-81.24,122.04-81.24,196.13s28.85,143.74,81.24,196.13c52.39,52.39,122.04,81.24,196.13,81.24s143.74-28.85,196.13-81.24c52.39-52.39,81.24-122.04,81.24-196.13s-28.85-143.74-81.24-196.13c-52.39-52.39-122.04-81.24-196.13-81.24Z"/>
+        <path fill="#ffe66d" d="M527.71,447.18h-45.29c-9.37,14.83-26.11,24.7-45.2,24.7-19.09,0-35.83-9.88-45.2-24.7h-45.29c11.94,37.92,47.93,65.46,90.49,65.46,42.56,0,78.55-27.54,90.49-65.46Z"/>
+        <path fill="#ffe66d" d="M733.27,632.82h-45.29c-9.37-14.83-26.11-24.7-45.2-24.7-19.09,0-35.83,9.88-45.2,24.7h-45.29c11.94-37.92,47.93-65.46,90.49-65.46,42.56,0,78.55,27.54,90.49,65.46Z"/>
+        <path fill="#4ecdc4" d="M531.91,611.11c0-51.32-42.4-92.93-94.7-92.93-52.3,0-94.7,41.61-94.7,92.93,0,7.47.9,14.74,2.6,21.71h43.74c-3.09-6.61-4.81-13.96-4.81-21.71,0-28.82,23.8-52.17,53.17-52.17,29.36,0,53.17,23.36,53.17,52.17,0,7.75-1.72,15.1-4.81,21.71h43.74c1.7-6.96,2.6-14.23,2.6-21.71Z"/>
+        <path fill="#4ecdc4" d="M737.48,468.89c0,51.32-42.4,92.93-94.7,92.93-52.3,0-94.7-41.61-94.7-92.93,0-7.47.9-14.74,2.6-21.71h43.74c-3.09,6.61-4.81,13.96-4.81,21.71,0,28.82,23.8,52.17,53.17,52.17,29.36,0,53.17-23.36,53.17-52.17,0-7.75-1.72-15.1-4.81-21.71h43.74c1.7,6.96,2.6,14.23,2.6,21.71Z"/>
+      </svg>
+
+      <h1 class="login-hero-heading" style="text-align:center;margin-bottom:6px">High-Performance<br><span class="teal">Retail Ecosystem</span></h1>
+      <p class="login-hero-sub" style="text-align:center;margin-bottom:0">The next-generation POS platform built for speed, security, and scale.</p>
+    </div>
+
+  </div>
+
+  <!-- Login card -->
+  <div class="login-card">
+    <div class="login-card-title">Login</div>
+    <div class="login-card-sub">Sign in with your operator credentials</div>
+
+    <form class="login-form" onsubmit="event.preventDefault();doLogin()">
+      <div id="loginError" class="login-error">Invalid credentials. Please try again.</div>
+
+      <div class="form-group">
+        <label class="form-label" for="loginEmail">Operator ID</label>
+        <div class="input-with-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <input type="email" id="loginEmail" class="form-control" placeholder="operator@doozipos.com" autocomplete="email" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="loginPassword">Access Key</label>
+        <div class="input-with-icon" style="position:relative">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" autocomplete="current-password" />
+          <span class="input-eye" onclick="togglePwd()" id="pwdEye">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <div class="login-row">
+        <label class="login-check-row">
+          <input type="checkbox" id="keepSignedIn" />
+          Keep me signed in
+        </label>
+        <span class="login-forgot">Forgot ID?</span>
+      </div>
+
+      <button type="submit" class="btn btn-lg" style="width:100%;margin-top:6px;background:#FFE66D;color:#0D2E2C;font-size:15px;font-weight:800;letter-spacing:0.2px;box-shadow:0 4px 16px rgba(255,230,109,0.35)">
+        Sign In &rarr;
+      </button>
+    </form>
+
+    <div class="login-or">OR</div>
+    <button class="login-alt-btn" onclick="doGoogleLogin()" style="width:100%;justify-content:center;gap:12px;padding:13px;font-size:14px;border-color:#DADCE0">
+      <!-- Google G logo -->
+      <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Continue with Google
+    </button>
+
+    <div class="login-demo">
+      <div class="login-demo-label">Demo accounts — click to fill</div>
+      <div class="demo-cred" onclick="fillCred('admin@doozipos.com','admin123')">
+        <div>
+          <div class="demo-cred-email">admin@doozipos.com</div>
+          <div class="demo-cred-role">Owner · Full access</div>
+        </div>
+        <span class="demo-cred-fill">Fill →</span>
+      </div>
+      <div class="demo-cred" onclick="fillCred('manager@doozipos.com','manager123')">
+        <div>
+          <div class="demo-cred-email">manager@doozipos.com</div>
+          <div class="demo-cred-role">Store Manager</div>
+        </div>
+        <span class="demo-cred-fill">Fill →</span>
+      </div>
+      <div class="demo-cred" onclick="fillCred('cashier@doozipos.com','cashier123')">
+        <div>
+          <div class="demo-cred-email">cashier@doozipos.com</div>
+          <div class="demo-cred-role">Cashier</div>
+        </div>
+        <span class="demo-cred-fill">Fill →</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR (hidden — mobile only app) -->
+<aside class="sidebar" id="sidebar" style="display:none"></aside>
+
+<div class="main-wrapper" id="mainWrapper">
+
+  <!-- TOP BAR -->
+  <header class="topbar" style="justify-content:space-between">
+    <!-- left spacer to balance avatar on right -->
+    <div style="width:44px"></div>
+    <!-- Centered logo — no background, raw SVG -->
+    <div style="position:absolute;left:50%;transform:translateX(-50%)">
+      <svg viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg" style="width:68px;height:68px;display:block">
+        <path fill="#4ecdc4" d="M540,852.76c-83.54,0-162.08-32.53-221.15-91.6-59.07-59.07-91.6-137.61-91.6-221.15s32.53-162.08,91.6-221.15c59.07-59.07,137.61-91.6,221.15-91.6s162.08,32.53,221.15,91.6c59.07,59.07,91.6,137.61,91.6,221.15s-32.53,162.08-91.6,221.15c-59.07,59.07-137.61,91.6-221.15,91.6ZM540,262.64c-74.09,0-143.74,28.85-196.13,81.24-52.39,52.39-81.24,122.04-81.24,196.13s28.85,143.74,81.24,196.13c52.39,52.39,122.04,81.24,196.13,81.24s143.74-28.85,196.13-81.24c52.39-52.39,81.24-122.04,81.24-196.13s-28.85-143.74-81.24-196.13c-52.39-52.39-122.04-81.24-196.13-81.24Z"/>
+        <path fill="#ffe66d" d="M527.71,447.18h-45.29c-9.37,14.83-26.11,24.7-45.2,24.7-19.09,0-35.83-9.88-45.2-24.7h-45.29c11.94,37.92,47.93,65.46,90.49,65.46,42.56,0,78.55-27.54,90.49-65.46Z"/>
+        <path fill="#ffe66d" d="M733.27,632.82h-45.29c-9.37-14.83-26.11-24.7-45.2-24.7-19.09,0-35.83,9.88-45.2,24.7h-45.29c11.94-37.92,47.93-65.46,90.49-65.46,42.56,0,78.55,27.54,90.49,65.46Z"/>
+        <path fill="#4ecdc4" d="M531.91,611.11c0-51.32-42.4-92.93-94.7-92.93-52.3,0-94.7,41.61-94.7,92.93,0,7.47.9,14.74,2.6,21.71h43.74c-3.09-6.61-4.81-13.96-4.81-21.71,0-28.82,23.8-52.17,53.17-52.17,29.36,0,53.17,23.36,53.17,52.17,0,7.75-1.72,15.1-4.81,21.71h43.74c1.7-6.96,2.6-14.23,2.6-21.71Z"/>
+        <path fill="#4ecdc4" d="M737.48,468.89c0,51.32-42.4,92.93-94.7,92.93-52.3,0-94.7-41.61-94.7-92.93,0-7.47.9-14.74,2.6-21.71h43.74c-3.09,6.61-4.81,13.96-4.81,21.71,0,28.82,23.8,52.17,53.17,52.17,29.36,0,53.17-23.36,53.17-52.17,0-7.75-1.72-15.1-4.81-21.71h43.74c1.7,6.96,2.6,14.23,2.6,21.71Z"/>
+      </svg>
+    </div>
+    <div class="topbar-right">
+      <div class="sync-indicator" title="Cloud sync active">
+        <div class="sync-dot"></div>
+        <span style="display:none" id="syncLabel">Synced</span>
+      </div>
+      <div class="icon-btn" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="badge">3</span>
+      </div>
+      <div class="topbar-avatar-btn" id="topbarAvatarBtn" role="button" tabindex="0" aria-label="Account menu" aria-haspopup="menu" onclick="toggleAvatarDropdown()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAvatarDropdown()}">
+        <div class="topbar-avatar" id="topbarAvatar">AS</div>
+        <div class="avatar-dropdown" id="avatarDropdown" style="display:none">
+          <div class="dropdown-header">
+            <div class="dropdown-user">
+              <div class="dropdown-avatar" id="dropdownAvatar">AS</div>
+              <div>
+                <div class="dropdown-name" id="dropdownName">Admin User</div>
+                <div class="dropdown-email" id="dropdownEmail">admin@doozipos.com</div>
+                <div class="dropdown-role-badge" id="dropdownRole">Owner</div>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown-section">
+            <button class="dropdown-item" onclick="event.stopPropagation();closeDropdown();navigate('settings')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 0-14.14 0M4.93 19.07a10 10 0 0 0 14.14 0"/></svg>
+              Settings
+            </button>
+            <button class="dropdown-item" onclick="event.stopPropagation();closeDropdown();navigate('reports')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+              Reports
+            </button>
+            <button class="dropdown-item" onclick="event.stopPropagation();closeDropdown();navigate('customers')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Customers
+            </button>
+            <button class="dropdown-item" onclick="event.stopPropagation();closeDropdown();navigate('expenses')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              Expenses & Bills
+            </button>
+            <button class="dropdown-item" onclick="event.stopPropagation();closeDropdown();navigate('invoices')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Invoices
+            </button>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-section">
+            <button class="dropdown-item danger" onclick="event.stopPropagation();doLogout()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content" id="pageContent"></main>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav" id="bottomNav">
+  <a href="#" class="bottom-nav-item active" data-page="dashboard" onclick="navigate('dashboard');return false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Home</span>
+  </a>
+  <a href="#" class="bottom-nav-item" data-page="reports" onclick="navigate('reports');return false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    <span>Reports</span>
+  </a>
+  <div class="nav-fab-slot"></div>
+  <a href="#" class="bottom-nav-item" data-page="orders" onclick="App.ordersTab='orders';navigate('orders');return false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    <span>Orders</span>
+  </a>
+  <a href="#" class="bottom-nav-item" id="moreNavBtn" onclick="toggleMoreDrawer();return false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg>
+    <span>More</span>
+  </a>
+</nav>
+
+<!-- Raised center action button (sits in the nav notch) -->
+<button class="nav-fab" onclick="openQuickOrder()" title="New Order" aria-label="New Order">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+</button>
+
+<!-- MORE DRAWER -->
+<div id="moreDrawer" style="display:none;position:fixed;bottom:calc(var(--bottom-nav-height) + 8px);left:12px;right:12px;z-index:200;background:var(--surface);border-radius:20px;box-shadow:0 -4px 32px rgba(0,0,0,0.18);padding:8px 0 4px;animation:slideUpFade .2s ease">
+  <div style="padding:10px 18px 6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted)">Navigation</div>
+  <div class="more-item" onclick="closeMoreDrawer();navigate('inventory')">
+    <div class="more-item-icon" style="background:var(--pastel-teal)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" style="width:18px;height:18px"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+    <span class="more-item-label">Inventory</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:var(--text-muted)"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+  <div class="more-item" onclick="closeMoreDrawer();navigate('sales')">
+    <div class="more-item-icon" style="background:var(--pastel-blue)"><svg viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" style="width:18px;height:18px"><path d="M14 2H6a2 2 0 0 0-2 2v16l3-3 3 3 3-3 3 3V4a2 2 0 0 0-2-2z"/></svg></div>
+    <span class="more-item-label">Sales</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:var(--text-muted)"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+  <div class="more-item" onclick="closeMoreDrawer();navigate('customers')">
+    <div class="more-item-icon" style="background:var(--pastel-blue)"><svg viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" style="width:18px;height:18px"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+    <span class="more-item-label">Customers</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:var(--text-muted)"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+  <div class="more-item" onclick="closeMoreDrawer();navigate('reports')">
+    <div class="more-item-icon" style="background:var(--pastel-green)"><svg viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2" style="width:18px;height:18px"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+    <span class="more-item-label">Reports</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:var(--text-muted)"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+  <div class="more-item" onclick="closeMoreDrawer();navigate('preorders')">
+    <div class="more-item-icon" style="background:var(--pastel-orange)"><svg viewBox="0 0 24 24" fill="none" stroke="#C2410C" stroke-width="2" style="width:18px;height:18px"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+    <span class="more-item-label">Pre Orders</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:var(--text-muted)"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+  <div class="more-item" onclick="closeMoreDrawer();navigate('quotations')">
+    <div class="more-item-icon" style="background:var(--pastel-yellow)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2" style="width:18px;height:18px">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+    </div>
+    <span class="more-item-label">Quotations</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:var(--text-muted)"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+  <div class="more-item" onclick="closeMoreDrawer();navigate('returns')">
+    <div class="more-item-icon" style="background:var(--pastel-pink)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#9D174D" stroke-width="2" style="width:18px;height:18px">
+        <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.22"/>
+      </svg>
+    </div>
+    <span class="more-item-label">Returns &amp; Refunds</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:var(--text-muted)"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+  <div class="more-item" onclick="closeMoreDrawer();navigate('marketing')">
+    <div class="more-item-icon" style="background:var(--pastel-purple)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#6D28D9" stroke-width="2" style="width:18px;height:18px">
+        <path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+      </svg>
+    </div>
+    <span class="more-item-label">Marketing</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:var(--text-muted)"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+
+  <div style="padding:10px 18px 6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-top:4px">Accounting</div>
+  <div class="more-item" onclick="closeMoreDrawer();navigate('expenses')">
+    <div class="more-item-icon" style="background:var(--pastel-pink)"><svg viewBox="0 0 24 24" fill="none" stroke="#9D174D" stroke-width="2" style="width:18px;height:18px"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+    <span class="more-item-label">Expenses</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:var(--text-muted)"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+
+  <div style="padding:10px 18px 6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-top:4px">Costing</div>
+  <div class="more-item" onclick="closeMoreDrawer();navigate('supplier-invoices')">
+    <div class="more-item-icon" style="background:var(--pastel-yellow)"><svg viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2" style="width:18px;height:18px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+    <span class="more-item-label">Supplier Invoices</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:var(--text-muted)"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+
+  <div style="padding:10px 18px 6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-top:4px">General</div>
+  <div class="more-item" onclick="closeMoreDrawer();openAddProductModal()">
+    <div class="more-item-icon" style="background:var(--pastel-teal)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" style="width:18px;height:18px"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17h7M17.5 14v7"/></svg></div>
+    <span class="more-item-label">Create New Item</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:var(--text-muted)"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+
+  <div style="padding:8px 12px 4px">
+    <button class="btn btn-secondary" style="width:100%;font-size:13px" onclick="closeMoreDrawer()">Close</button>
+  </div>
+</div>
+<div id="moreDrawerBackdrop" style="display:none;position:fixed;inset:0;z-index:199" onclick="closeMoreDrawer()"></div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modalBackdrop"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-header">
+    <h3 id="modalTitle">Modal</h3>
+    <button class="modal-close" id="modalClose" aria-label="Close dialog" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="modal-body" id="modalBody"></div>
+  <div class="modal-footer" id="modalFooter"></div>
+</div>
+
+<!-- TOAST (announced to assistive tech) -->
+<div class="toast-container" id="toastContainer" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<script src="js/data.js"></script>
+<script src="js/cloud.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // PWA: register the service worker so the app installs + works offline.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+  }
+</script>
+</body>
+</html>
